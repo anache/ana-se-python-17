@@ -31,16 +31,6 @@ class HomeWork03_Negative(unittest.TestCase):
         # check for missing data
         self.assertTrue(self.is_element_present(By.XPATH, "//form[@id='updateform']/table/tbody/tr[4]/td[2]/label"))
         self.assertEqual("Please enter a valid number", driver.find_element_by_xpath("//form[@id='updateform']/table/tbody/tr[4]/td[2]/label").text)
-        #        print driver.find_element_by_css_selector("label.error").text
-        #        self.assertTrue("Please enter a valid number" == driver.find_element_by_css_selector("label.error").text)
-        driver.find_element_by_name("year").clear()
-        driver.find_element_by_name("year").send_keys("2016")
-        driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
-        #driver.find_element_by_id("submit").click()
-        driver.find_element_by_css_selector("h1").click()
-        driver.find_element_by_css_selector(".movie_box > div.movie_cover > div.nocover").click()
-        driver.find_element_by_css_selector("img[alt=\"Remove\"]").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")
         driver.find_element_by_link_text("Log out").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
 
