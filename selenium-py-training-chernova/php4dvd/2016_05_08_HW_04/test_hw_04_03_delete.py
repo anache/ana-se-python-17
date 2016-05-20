@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 #import org.openqa.selenium.Keys
 
-class HomeWork04(unittest.TestCase):
+class HomeWork04Delete(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
@@ -16,7 +16,7 @@ class HomeWork04(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_home_work04(self):
+    def test_home_work04_03_delete(self):
         driver = self.driver
         driver.get(self.base_url + "/php4dvd/")
         driver.find_element_by_id("username").clear()
@@ -24,22 +24,7 @@ class HomeWork04(unittest.TestCase):
         driver.find_element_by_name("password").clear()
         driver.find_element_by_name("password").send_keys("admin")
         driver.find_element_by_name("submit").click()
-        driver.find_element_by_link_text("Add movie").click()
-        driver.find_element_by_id("imdbsearch").clear()
-        driver.find_element_by_id("imdbsearch").send_keys("forrest")
-        driver.find_element_by_css_selector("input[type=\"submit\"]").click()
-        driver.find_element_by_link_text("Forrest Gump").click()
-        driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
-        #driver.find_element_by_id("submit").click()
-        driver.find_element_by_css_selector("h1").click()
         driver.find_element_by_id("q").clear()
-        driver.find_element_by_id("q").send_keys("titanic")
-        driver.find_element_by_id("q").send_keys(Keys.RETURN)
-        #add verification
-        self.assertEqual("No movies where found.", driver.find_element_by_css_selector("div.content").text)
-        driver.find_element_by_id("q").clear()
-        driver.find_element_by_id("q").send_keys("forrest")
-        driver.find_element_by_id("q").send_keys(Keys.RETURN)
         driver.find_element_by_css_selector("div.nocover").click()
         driver.find_element_by_css_selector("img[alt=\"Remove\"]").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")

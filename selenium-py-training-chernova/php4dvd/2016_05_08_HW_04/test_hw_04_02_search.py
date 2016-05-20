@@ -6,16 +6,17 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
+#import org.openqa.selenium.Keys
 
-class HomeWork02Add(unittest.TestCase):
+class HomeWork04Search(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(capabilities={'native_events': False}, )
+        self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(2)
         self.base_url = "http://localhost/"
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_home_work02_01_add(self):
+    def test_home_work04_02_search(self):
         driver = self.driver
         driver.get(self.base_url + "/php4dvd/")
         driver.find_element_by_id("username").clear()
@@ -23,16 +24,34 @@ class HomeWork02Add(unittest.TestCase):
         driver.find_element_by_name("password").clear()
         driver.find_element_by_name("password").send_keys("admin")
         driver.find_element_by_name("submit").click()
-        driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
-        driver.find_element_by_name("name").clear()
-        driver.find_element_by_name("name").send_keys("HomeWork02")
-        driver.find_element_by_name("year").clear()
-        driver.find_element_by_name("year").send_keys("2016")
-        driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_id("q").send_keys("forrest")
+        driver.find_element_by_id("q").send_keys(Keys.RETURN)
 
-        driver.find_element_by_css_selector("h1").click()
         self.assertEquals(len(driver.find_elements_by_css_selector("div.nocover")), 1)
 
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_link_text("Log out").click()
+        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
+
+    def test_home_work04_02_search_negative(self):
+        driver = self.driver
+        driver.get(self.base_url + "/php4dvd/")
+        driver.find_element_by_id("username").clear()
+        driver.find_element_by_id("username").send_keys("admin")
+        driver.find_element_by_name("password").clear()
+        driver.find_element_by_name("password").send_keys("admin")
+        driver.find_element_by_name("submit").click()
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_id("q").send_keys("titanic")
+        driver.find_element_by_id("q").send_keys(Keys.RETURN)
+        #add verification
+        time.sleep(2)
+        self.assertEquals(len(driver.find_elements_by_css_selector("div.nocover")), 0)
+        self.assertEqual("No movies where found.", driver.find_element_by_css_selector("div.content").text)
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_id("q").send_keys("forrest")
+        driver.find_element_by_id("q").send_keys(Keys.RETURN)
         driver.find_element_by_link_text("Log out").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
 
@@ -63,3 +82,4 @@ class HomeWork02Add(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

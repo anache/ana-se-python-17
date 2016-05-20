@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class HomeWork02(unittest.TestCase):
+class HomeWork02Remove(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(capabilities={'native_events': False}, )
         self.driver.implicitly_wait(2)
@@ -15,7 +15,7 @@ class HomeWork02(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_home_work02_01_login(self):
+    def test_home_work02_01_remove(self):
         driver = self.driver
         driver.get(self.base_url + "/php4dvd/")
         driver.find_element_by_id("username").clear()
