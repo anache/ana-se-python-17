@@ -70,3 +70,41 @@ class Application(object):
         ump.user_form.password1_field.send_keys(user.password)
         #ump.user_form.role_select.select_by_visible_text(user.role)
         ump.user_form.submit_button.click()
+
+    def ensure_movie_added(self, movie):
+        self.internal_page.go_home()
+        original_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        self.internal_page.add_movie(movie)
+
+        new_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        assert new_movie_count == original_movie_count + 1
+        self.internal_page.go_home()
+
+    def ensure_movie_removed(self):
+        self.internal_page.go_home()
+        original_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        self.internal_page.remove_last_movie()
+
+        new_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        assert new_movie_count == original_movie_count - 1
+        self.internal_page.go_home()
+
+    def ensure_bad_movie_not_added(self, movie):
+        self.internal_page.go_home()
+        original_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        element = self.internal_page.add_movie_negative(movie)
+
+        assert element
+        assert "Please enter a valid number" == element.text
+
+        self.internal_page.go_home()
+        new_movie_count = len(self.wait.until(presence_of_all_elements_located((By.CSS_SELECTOR, "div.nocover"))))
+
+        assert new_movie_count == original_movie_count
+
+        self.internal_page.go_home()
